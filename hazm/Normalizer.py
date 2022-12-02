@@ -48,7 +48,7 @@ class Normalizer(object):
             self.words = lemmatizer.words
             self.verbs = lemmatizer.verbs
             self.tokenizer = WordTokenizer(join_verb_parts=False)
-            self.suffixes = {'ی', 'ای', 'ها', 'های', 'تر', 'تری', 'ترین', 'گر', 'گری', 'ام', 'ات', 'اش'}
+            self.suffixes = {'ی', 'ای', 'ها', 'های', 'تر', 'تری', 'ترین', 'گری', 'ام', 'ات', 'اش'}
 
         self.character_refinement_patterns = []
 
@@ -114,7 +114,9 @@ class Normalizer(object):
                 'اندر': 'در',
                 'ار': 'اگر',
                 'کاخر': 'که آخر',
-                # 'کز': ''
+				'بتر':'بدتر',
+				'وان': 'و آن',
+				'اوفتاد': 'افتاد'
             }
             self.fix_pp_patterns = compile_patterns([(base_pattern_regex.format(pt),
                                                       base_repl_regex.format(rep)) for pt, rep in fix_pp_dict.items()])

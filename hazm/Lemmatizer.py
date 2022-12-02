@@ -133,39 +133,47 @@ class Lemmatizer(object):
             return ['هست' + end for end in past_ends] + ['نیست' + end for end in past_ends]
 
         past_simples = [past + end for end in past_ends]
-        past_imperfects = ['می‌' + item for item in past_simples]
+        past_imperfects = ['می‌' + item for item in past_simples] 
         narrative_ends = ['ه‌ام', 'ه‌ای', 'ه است', 'ه‌ایم', 'ه‌اید', 'ه‌اند']
         past_narratives = [past + end for end in narrative_ends]
 
-        kohan_past_simples = ['همی‌ب' + self.add_ya(past) + end for end in past_ends]
+        past_subjunctives = ['ب' + item for item in past_simples] + \
+			['ب'+ item + 'ی' for item in past_simples]
 
+        kohan_past_simples = ['همی‌ب' + self.add_ya(past) + end for end in past_ends] +\
+			['می‌ب' + self.add_ya(past) + end for end in past_ends]
+
+        kohan_not_past_simples = ['همی‌ن' + self.add_ya(past) + end for end in past_ends] +\
+			['می‌ن' + self.add_ya(past) + end for end in past_ends]
         present_ends = ['م', 'ی', 'د', 'یم', 'ید', 'ند']
         present_simples = [present + end for end in present_ends]
         aux_present_simples = [aux_present + end for end in present_ends]
 
         imp_present = aux_present[:-1] if aux_present.endswith('ی') else aux_present
-        imperatives = ['ب' + imp_present, 'ن' + imp_present]
+        imperatives = ['ب' + imp_present, 'ن' + imp_present, 'م' + imp_present] 
         present_subjunctives = ['ب' + item for item in aux_present_simples]
 
         # if present.endswith('ا') or present in ('آ', 'گو'):
         #     present = present + 'ی'
 
-        present_imperfects = ['می‌' + item for item in present_simples]
+        present_imperfects = ['می‌' + item for item in present_simples] 
         # present_not_subjunctives = ['ن' + item for item in present_simples]
 
-        kohan_present_imperfects = ['همی‌' + item for item in present_simples] +\
+        kohan_present_imperfects = ['همی‌' + item for item in present_simples] + \
                                    [item + 'ی' for item in past_simples]
-        kohan_not_present_imperfects = ['همی‌ن' + item for item in aux_present_simples]
+        kohan_not_present_imperfects = ['همی‌ن' + item for item in aux_present_simples] + \
+			['می‌ن' + item for item in aux_present_simples]
 
         # with_nots = lambda items: items + self.not_verbs(items)
-        with_nots = lambda items: items + list(map(lambda item: 'ن' + self.add_ya(item), items))
+        with_nots = lambda items: items + list(map(lambda item: 'ن' + self.add_ya(item), items)) + \
+			 list(map(lambda item: 'م' + self.add_ya(item), items))
         aa_refinement = lambda items: list(map(lambda item: item.replace('بآ', 'بیا').replace('نآ', 'نیا'), items)) if \
             items[0].startswith('آ') else items
         return aa_refinement(
             with_nots(past_simples) + with_nots(past_narratives) + with_nots(past_imperfects) +
-            kohan_past_simples +
+            kohan_past_simples + past_subjunctives +
             with_nots(present_simples) + with_nots(present_imperfects) + present_subjunctives +
-            kohan_present_imperfects + kohan_not_present_imperfects +
+            kohan_present_imperfects + kohan_not_present_imperfects + 
             imperatives
         )
 
