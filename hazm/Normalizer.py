@@ -114,9 +114,9 @@ class Normalizer(object):
                 'اندر': 'در',
                 'ار': 'اگر',
                 'کاخر': 'که آخر',
-				'بتر':'بدتر',
-				'وان': 'و آن',
-				'اوفتاد': 'افتاد'
+                'بتر': 'بدتر',
+                'وان': 'و آن',
+                'اوفتاد': 'افتاد'
             }
             self.fix_pp_patterns = compile_patterns([(base_pattern_regex.format(pt),
                                                       base_repl_regex.format(rep)) for pt, rep in fix_pp_dict.items()])
@@ -320,9 +320,9 @@ class Normalizer(object):
             # elif token.startswith('ک'):
             #     new_tokens = self.get_normalized_tokens(token, check_token=token[1:],
             #                                        new_tokens=['که', token[1:]], words_list=self.words)
-            elif token == 'می' and ind != len(tokens) - 1:
+            elif token in ['می', 'نمی'] and ind != len(tokens) - 1:
                 if tokens[ind+1] in self.verbs:
-                    new_token = 'می' + '‌' + tokens[ind+1]
+                    new_token = token + '‌' + tokens[ind+1]
                     new_tokens = [new_token]
                     jump = 1
 
