@@ -17,7 +17,10 @@ informal_verbs = path.join(data_path, 'iverbs.dat')
 
 NUMBERS = '۰۱۲۳۴۵۶۷۸۹'
 
-maketrans = lambda A, B: dict((ord(a), b) for a, b in zip(A, B))
+
+def maketrans(scr, dst):
+	return {ord(a): b for a, b in zip(scr, dst)}
+
 
 def words_list(words_file=default_words):
 	"""لیست کلمات را برمی‌گرداند.
